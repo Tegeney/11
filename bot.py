@@ -1,4 +1,4 @@
-TEGΣПΞ, [3/30/2025 3:19 PM]
+
 import os
 import re
 import json
@@ -644,7 +644,7 @@ async def main():
     web_app.router.add_post(f'/{TOKEN}', webhook_handler)
 
     # Set webhook
-    webhook_url = os.getenv("WEBHOOK_URL")
+    webhook_url = os.getenv("https://sudden-andriette-tegene-68731409.koyeb.app/")
     if not webhook_url:
         raise ValueError("WEBHOOK_URL environment variable is not set")
     await telegram_app.bot.set_webhook(url=webhook_url + f"/{TOKEN}")
