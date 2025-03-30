@@ -1,4 +1,3 @@
-
 import os
 import re
 import json
@@ -27,13 +26,13 @@ logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 )
-logger = logging.getLogger(name)
+logger = logging.getLogger(__name__)
 
 # Load sensitive data from environment variables
-TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
-ZYTE_API_KEY = os.getenv("ZYTE_API_KEY")
+TOKEN = os.getenv("TELEGRAM_BOT_TOKEN","7785165731:AAE0a0qgRV9HTt4TmKPgmwuzopwN-DFjKTg")
+ZYTE_API_KEY = os.getenv("ZYTE_API_KEY","52774ce7e178423798caa6dbb3d706f3")
 CHANNEL_ID = os.getenv("CHANNEL_ID", "@amharictutorialclass")
-ADMIN_IDS = {int(os.getenv("ADMIN_ID", "123456789"))}  # Replace with your Telegram user ID
+ADMIN_IDS = {int(os.getenv("ADMIN_ID", "723559736"))}  # Replace with your Telegram user ID
 PORT = int(os.getenv("PORT", 8080))
 
 # API Base URLs for different regions
@@ -123,7 +122,6 @@ async def fetch_student_data(region: str, registration: str, first_name: str) ->
             logger.error(f"Error fetching student data: {e}")
             return None
 
-TEGΣПΞ, [3/30/2025 3:19 PM]
 # Fetch student photo asynchronously
 async def fetch_student_photo(photo_url: str) -> BytesIO:
     async with aiohttp.ClientSession() as session:
@@ -213,9 +211,7 @@ async def fetch_results(update: Update, context: CallbackContext) -> None:
         f"🎓 <b>Student Result</b>\n\n"
         f"👤 <b>Name:</b> {student.get('name', 'N/A')}\n"
         f"🎂 <b>Age:</b> {student.get('age', 'N/A')}\n"
-
-TEGΣПΞ, [3/30/2025 3:19 PM]
-f"🏫 <b>School:</b> {student.get('school', 'N/A')}\n"
+        f"🏫 <b>School:</b> {student.get('school', 'N/A')}\n"
         f"📍 <b>Woreda:</b> {student.get('woreda', 'N/A')}\n"
         f"🚻 <b>Gender:</b> {student.get('gender', 'N/A')}\n"
         f"📚 <b>Courses:</b>\n"
@@ -303,7 +299,6 @@ def main_menu_keyboard_amharic():
         [InlineKeyboardButton("❤️ ደራሲ", callback_data="creator_amharic")],
     ])
 
-TEGΣПΞ, [3/30/2025 3:19 PM]
 # Handlers
 async def start(update: Update, context: CallbackContext) -> int:
     if not await is_user_member(update, context):
@@ -393,9 +388,7 @@ async def get_registration(update: Update, context: CallbackContext) -> int:
         text = "❌ Invalid registration number. Try again." if user_data.get('language') == "en" else "❌ የማያገለግል የምዝገባ ቁጥር። እባክዎ ደግመው ይሞክሩ።"
         error_msg = await update.message.reply_text(text)
         user_data['message_ids'].append(error_msg.message_id)
-
-TEGΣПΞ, [3/30/2025 3:19 PM]
-return REGISTRATION
+        return REGISTRATION
     user_data['registration'] = registration
     text = "📝 Now please enter your first name:" if user_data.get('language') == "en" else "📝 እባክዎ የእርስዎን የመጀመሪያ ስም ያስገቡ:"
     prompt_msg = await update.message.reply_text(text)
@@ -488,8 +481,7 @@ async def button_handler(update: Update, context: CallbackContext) -> int:
     lang = user_data.get('language', 'en')
     chat_id = update.effective_chat.id
 
-TEGΣПΞ, [3/30/2025 3:19 PM]
-if query.data == "noop":
+    if query.data == "noop":
         return ConversationHandler.END
     elif query.data in ["check_result", "check_result_amharic"]:
         text = "Please provide your registration number:" if lang == "en" else "እባክዎ የምዝገባ ቁጥርዎን ያስገቡ:"
@@ -565,9 +557,7 @@ async def reply_to_feedback(update: Update, context: CallbackContext) -> None:
         return
     try:
         feedback_id = int(context.args[0])
-
-TEGΣПΞ, [3/30/2025 3:19 PM]
-reply_message = " ".join(context.args[1:])
+        reply_message = " ".join(context.args[1:])
         
         conn = sqlite3.connect("bot_data.db")
         cursor = conn.execute("SELECT user_id FROM feedback WHERE id = ? AND replied = 0", (feedback_id,))
@@ -644,7 +634,7 @@ async def main():
     web_app.router.add_post(f'/{TOKEN}', webhook_handler)
 
     # Set webhook
-    webhook_url = os.getenv("https://sudden-andriette-tegene-68731409.koyeb.app/")
+    webhook_url = os.getenv("WEBHOOK_URL","https://sudden-andriette-tegene-68731409.koyeb.app/")
     if not webhook_url:
         raise ValueError("WEBHOOK_URL environment variable is not set")
     await telegram_app.bot.set_webhook(url=webhook_url + f"/{TOKEN}")
@@ -658,5 +648,5 @@ async def main():
     logger.info(f"Bot started on port {PORT} with webhook {webhook_url}/{TOKEN}")
     await asyncio.Event().wait()  # Keep the app running
 
-if name == "main":
+if __name__ == "__main__":
     asyncio.run(main())
